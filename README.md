@@ -416,7 +416,7 @@ subplot                             % Crease multiple plots in one.
 
 ## Three-Dimensional Plotting        
 
-```Matlib
+```Matlab
 bar3h                               % Vertical 3-D bar chart.
 comet3                              % Horizontal 3-D bar chart.
 cylinder                            % 3-D comet plot.
