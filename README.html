@@ -82,6 +82,7 @@
 <a id="user-content-table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Table of Contents</h1>
 <ul>
 <li><a href="#matlab-reference">Matlab Reference</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
 <li><a href="#getting-help">Getting Help</a></li>
 <li>
 <a href="#arrays">Arrays</a>
@@ -124,6 +125,19 @@
 </ul>
 </li>
 <li>
+<a href="#control-systems">Control Systems</a>
+<ul>
+<li>
+<a href="#transfer-functions">Transfer Functions</a>
+<ul>
+<li><a href="#defining">Defining</a></li>
+<li><a href="#analysing">Analysing</a></li>
+</ul>
+</li>
+<li><a href="#block-diagrams">Block Diagrams</a></li>
+</ul>
+</li>
+<li>
 <a href="#reference">Reference</a>
 <ul>
 <li><a href="#mathematical-operations">Mathematical Operations</a></li>
@@ -131,8 +145,8 @@
 <li><a href="#time-and-date">Time and Date</a></li>
 <li><a href="#two-dimensional-plotting">Two-Dimensional Plotting</a></li>
 <li><a href="#three-dimensional-plotting">Three-Dimensional Plotting</a></li>
-<li><a href="#plot-anotation">Plot Anotation</a></li>
-<li><a href="#suface-mesh-and-conour-plots">Suface, Mesh and Conour Plots</a></li>
+<li><a href="#plot-annotation">Plot Annotation</a></li>
+<li><a href="#surface-mesh-and-contour-plots">Surface, Mesh and Contour Plots</a></li>
 <li><a href="#domain-generation-and-interpolation">Domain Generation and Interpolation</a></li>
 <li><a href="#polynomial-functions">Polynomial Functions</a></li>
 </ul>
@@ -300,6 +314,48 @@ title(<span class="pl-s"><span class="pl-pds">'</span>Plot 1<span class="pl-pds"
 subplot(<span class="pl-c1">1</span>,<span class="pl-c1">2</span>,<span class="pl-c1">2</span>)                      <span class="pl-c"><span class="pl-c">%</span> 1x2 Subplot, position 2</span>
 plot(x,z)                           <span class="pl-c"><span class="pl-c">%</span> Plot the second figure.</span>
 title(<span class="pl-s"><span class="pl-pds">'</span>Plot 2<span class="pl-pds">'</span></span>)                     <span class="pl-c"><span class="pl-c">%</span> Plot 2 title</span></pre></div>
+<h1>
+<a id="user-content-control-systems" class="anchor" href="#control-systems" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Control Systems</h1>
+<h2>
+<a id="user-content-transfer-functions" class="anchor" href="#transfer-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Transfer Functions</h2>
+<h3>
+<a id="user-content-defining" class="anchor" href="#defining" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Defining</h3>
+<pre><code>% Method 1
+
+numF1 = 24*[1,2,3];
+denF1 = [1,0,4,0];
+F1 = tf(numF1,denF1)
+
+% Method 2
+
+numF2 = poly([0 -2]);
+denF2 = poly([-4 2 -5]);
+F2 = tf(numF2, denF2)
+
+% Method 3
+
+s = tf('s');
+F3 = s*(s + 2) / ((s+4) * (s-2) * (s+5))
+
+</code></pre>
+<h3>
+<a id="user-content-analysing" class="anchor" href="#analysing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Analysing</h3>
+<div class="highlight highlight-source-matlab"><pre>
+Ts = s*(s <span class="pl-k">+</span> <span class="pl-c1">2</span>) <span class="pl-k">/</span> ((s+<span class="pl-c1">4</span>)*(s-<span class="pl-c1">2</span>))      <span class="pl-c"><span class="pl-c">%</span> An arbritrary transfer function.</span>
+
+pole(Ts)                            <span class="pl-c"><span class="pl-c">%</span> Find the poles of the transfer function.</span>
+zero(Ts)                            <span class="pl-c"><span class="pl-c">%</span> Find the zeros of the transfer function.</span>
+pzmap(Ts)                           <span class="pl-c"><span class="pl-c">%</span> Plot the poles and zeros in cartesian coordinates.</span></pre></div>
+<h2>
+<a id="user-content-block-diagrams" class="anchor" href="#block-diagrams" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Block Diagrams</h2>
+<div class="highlight highlight-source-matlab"><pre>
+G1s = tf([<span class="pl-c1">1</span>],[<span class="pl-c1">2</span>,<span class="pl-c1">3</span>])                 <span class="pl-c"><span class="pl-c">%</span> Forward path transfer function one.</span>
+G2s = tf([<span class="pl-c1">1</span>],[<span class="pl-c1">2</span>,<span class="pl-c1">3</span>])                 <span class="pl-c"><span class="pl-c">%</span> Forward path transfer function two.</span>
+H1 = tf([<span class="pl-c1">1</span>],[<span class="pl-c1">1</span>,<span class="pl-c1">0</span>])                  <span class="pl-c"><span class="pl-c">%</span> Feedback path tranfer function.</span>
+
+Gfp = series(G1s,G2s)               <span class="pl-c"><span class="pl-c">%</span> Series combination, equivalent to G1s * G2s</span>
+Gfs = parallel(G1s,G2s)             <span class="pl-c"><span class="pl-c">%</span> Parallel combination, equivalent to G1s + G2s</span>
+Ts = feedback(G1s,H1,-<span class="pl-c1">1</span>)            <span class="pl-c"><span class="pl-c">%</span> Combine a feedback loop, integer value represents positive / negitive.</span></pre></div>
 <h1>
 <a id="user-content-reference" class="anchor" href="#reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reference</h1>
 <h2>

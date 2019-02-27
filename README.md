@@ -6,6 +6,7 @@ Table of Contents
 =================
 
    * [Matlab Reference](#matlab-reference)
+   * [Table of Contents](#table-of-contents)
    * [Getting Help](#getting-help)
    * [Arrays](#arrays)
       * [Creating](#creating)
@@ -27,16 +28,22 @@ Table of Contents
       * [Multiple Figures](#multiple-figures)
       * [Line Types](#line-types)
       * [Subplot](#subplot)
+   * [Control Systems](#control-systems)
+      * [Transfer Functions](#transfer-functions)
+         * [Defining](#defining)
+         * [Analysing](#analysing)
+      * [Block Diagrams](#block-diagrams)
    * [Reference](#reference)
       * [Mathematical Operations](#mathematical-operations)
       * [Data Analysis](#data-analysis)
       * [Time and Date](#time-and-date)
       * [Two-Dimensional Plotting](#two-dimensional-plotting)
       * [Three-Dimensional Plotting](#three-dimensional-plotting)
-      * [Plot Anotation](#plot-anotation)
-      * [Suface, Mesh and Conour Plots](#suface-mesh-and-conour-plots)
+      * [Plot Annotation](#plot-annotation)
+      * [Surface, Mesh and Contour Plots](#surface-mesh-and-contour-plots)
       * [Domain Generation and Interpolation](#domain-generation-and-interpolation)
       * [Polynomial Functions](#polynomial-functions)
+
 
 # Getting Help
 
@@ -245,6 +252,56 @@ title('Plot 1')                     % Plot 1 title
 subplot(1,2,2)                      % 1x2 Subplot, position 2
 plot(x,z)                           % Plot the second figure.
 title('Plot 2')                     % Plot 2 title
+```
+
+# Control Systems
+
+## Transfer Functions
+
+### Defining
+
+```
+% Method 1
+
+numF1 = 24*[1,2,3];
+denF1 = [1,0,4,0];
+F1 = tf(numF1,denF1)
+
+% Method 2
+
+numF2 = poly([0 -2]);
+denF2 = poly([-4 2 -5]);
+F2 = tf(numF2, denF2)
+
+% Method 3
+
+s = tf('s');
+F3 = s*(s + 2) / ((s+4) * (s-2) * (s+5))
+
+```
+
+### Analysing
+
+```Matlab
+
+Ts = s*(s + 2) / ((s+4)*(s-2))      % An arbritrary transfer function.
+
+pole(Ts)                            % Find the poles of the transfer function.
+zero(Ts)                            % Find the zeros of the transfer function.
+pzmap(Ts)                           % Plot the poles and zeros in cartesian coordinates.
+```
+
+## Block Diagrams
+
+```Matlab
+
+G1s = tf([1],[2,3])                 % Forward path transfer function one.
+G2s = tf([1],[2,3])                 % Forward path transfer function two.
+H1 = tf([1],[1,0])                  % Feedback path tranfer function.
+
+Gfp = series(G1s,G2s)               % Series combination, equivalent to G1s * G2s
+Gfs = parallel(G1s,G2s)             % Parallel combination, equivalent to G1s + G2s
+Ts = feedback(G1s,H1,-1)            % Combine a feedback loop, integer value represents positive / negitive.
 ```
 
 # Reference
