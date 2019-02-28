@@ -43,6 +43,7 @@ Table of Contents
       * [Surface, Mesh and Contour Plots](#surface-mesh-and-contour-plots)
       * [Domain Generation and Interpolation](#domain-generation-and-interpolation)
       * [Polynomial Functions](#polynomial-functions)
+      * [Discrete Time Signal Processing](#discrete-time-signal-processing)
 
 
 # Getting Help
@@ -301,7 +302,7 @@ H1 = tf([1],[1,0])                  % Feedback path tranfer function.
 
 Gfp = series(G1s,G2s)               % Series combination, equivalent to G1s * G2s
 Gfs = parallel(G1s,G2s)             % Parallel combination, equivalent to G1s + G2s
-Ts = feedback(G1s,H1,-1)            % Combine a feedback loop, integer value represents positive / negitive.
+Ts = feedback(G1s,H1,-1)            % Combine feedback loop, integer represents positive/negitive.
 ```
 
 # Reference
@@ -479,4 +480,14 @@ polyval(p1,x)                       % Polynomical (p1), evaluated at x.
 conv(u,v)                           % Convolution.
 deconv(v,u)                         % Deconvolution.
 roots(c)                            % Returns a columns vector for roots of polynominal.
+```
+
+## Discrete Time Signal Processing
+
+```Matlab
+fft(xt)                             % Get the fast Fourier transform of x(t).
+fftshift(xf)                        % Center a FFT about the zero frequency.
+cheby2(A,B,C,D)                     % Get filter coeffecients for chebyshev filter.
+filter(B,A,X)                       % Filter a time domain signal with filter coefficients.
+
 ```
